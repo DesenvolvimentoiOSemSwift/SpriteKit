@@ -17,7 +17,7 @@ class GameViewController: UIViewController {
         let scene = GameScene(fileNamed:"GameScene")
         
         // Configure the view.
-        let skView = self.view as SKView
+        let skView = self.view as! SKView
 //        skView.showsFPS = true
 //        skView.showsNodeCount = true
 //        skView.showsDrawCount = true
@@ -29,16 +29,16 @@ class GameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         
         /* Set the scale mode to scale to fit the window */
-        scene.scaleMode = .AspectFill
+        scene!.scaleMode = .AspectFill
         
         // Present Scene with Fade
-        skView.presentScene(scene, transition: SKTransition.fadeWithDuration(0.5))
+        skView.presentScene(scene!, transition: SKTransition.fadeWithDuration(0.5))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "createScene", name: "loadScene", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameViewController.createScene), name: "loadScene", object: nil)
         self.createScene()
     }
 }

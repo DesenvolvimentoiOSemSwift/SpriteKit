@@ -33,21 +33,21 @@ class GameScene: SKScene , SKPhysicsContactDelegate
         {
             if child.name == "title"
             {
-                self.title = child as SKLabelNode
+                self.title = child as! SKLabelNode
             }
             else if child.name == "score"
             {
-                self.score = child as SKLabelNode
+                self.score = child as! SKLabelNode
                 self.score.alpha = 0
             }
             else if child.name == "player"
             {
-                self.player = child as SKSpriteNode
+                self.player = child as! SKSpriteNode
                 self.player.alpha = 0
             }
             else if child.name == "obstacle"
             {
-                self.obstacle = child as SKSpriteNode
+                self.obstacle = child as! SKSpriteNode
                 self.obstacle.alpha = 0
                 yObstacle = self.obstacle.position.y
             }
@@ -71,7 +71,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate
             
             // Points
             if !firstTime {
-                self.points++
+                self.points += 1
                 self.score.text = "\(self.points)"
             }
             
@@ -102,11 +102,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate
     }
     
     // MARK: Gestures
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
         // Get touch
-        let touch = touches.anyObject() as UITouch
-        let touchPosition = touch.locationInNode(self)
+        let touch = touches.first
+        let touchPosition = touch!.locationInNode(self)
         
         // Test State
         if gameState == stateControl.Run {
@@ -142,13 +142,9 @@ class GameScene: SKScene , SKPhysicsContactDelegate
             }
         }
     }
-    
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        
-        // Get Touch
-        let touch = touches.anyObject() as UITouch
-        let touchPosition = touch.locationInNode(self)
-        
+
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+
         // Test State
         if gameState == stateControl.Title {
             
@@ -170,7 +166,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate
     }
     
     // MARK: Physics
-    func didBeginContact(contact: SKPhysicsContact!) {
+    func didBeginContact(contact: SKPhysicsContact) {
         if !self.collided {
             self.collided = true
             self.gameState = .End
